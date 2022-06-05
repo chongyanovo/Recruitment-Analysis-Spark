@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="RemoteTargetsManager">
+    <targets>
+      <target name="root@master:22" type="ssh/sftp" uuid="f12222de-4656-42bf-af2f-31c8e804d0ba">
+        <config>
+          <option name="projectRootOnTarget" value="/root/Recruitment-Analysis-Spark" />
+          <option name="serverName" value="root@master:22 password" />
+          <option name="useRsync" value="true" />
+        </config>
+        <ContributedStateBase type="JavaLanguageRuntime">
+          <config>
+            <option name="homePath" value="/usr/local/src/java" />
+            <option name="javaVersionString" value="1.8.0_262" />
+          </config>
+        </ContributedStateBase>
+      </target>
+    </targets>
+  </component>
+</project>
