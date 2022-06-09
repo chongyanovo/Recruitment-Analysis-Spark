@@ -34,14 +34,14 @@ object SparkCore {
    * @return DataFrame
    */
   def getPositionCount(spark: SparkSession, jobOnlineDF: DataFrame): DataFrame = {
-    jobOnlineDF.select("title")
-      .where(StringHandle.getKeySQL("title"))
-      .createTempView("position_count")
+    jobOnlineDF.select("TITLE")
+      .where(StringHandle.getKeySQL("TITLE"))
+      .createTempView("POSITION_COUNT")
     val sql =
-      s"""select position_re(title) position, sum(1) position_count
-         |from position_count
-         |group by position""".stripMargin
-    DataFrameHandle.NullFilter(spark.sql(sql), "position")
+      s"""select POSITION_RE(TITLE) POSITION, sum(1) POSITION_COUNT
+         |from POSITION_COUNT
+         |group by POSITION""".stripMargin
+    DataFrameHandle.NullFilter(spark.sql(sql), "POSITION")
   }
 
 
@@ -53,17 +53,17 @@ object SparkCore {
    * @return DataFrame
    */
   def getPayMinMax(spark: SparkSession, jobOnlineDF: DataFrame): DataFrame = {
-    jobOnlineDF.select("title", "pay")
-      .where(StringHandle.getKeySQL("title"))
-      .where("pay like '%K-%K'")
-      .createTempView("pay_min_max_tmp")
+    jobOnlineDF.select("TITLE", "PAY")
+      .where(StringHandle.getKeySQL("TITLE"))
+      .where("PAY like '%K-%K'")
+      .createTempView("PAY_MIN_MAX_TMP")
 
     val sql =
-      s"""select position_re(title) position, min(pay_min_int(pay)) pay_min, max(pay_max_int(pay)) pay_max
-         |from pay_min_max_tmp
-         |group by position
-         |order by position desc""".stripMargin
-    DataFrameHandle.NullFilter(spark.sql(sql), "position")
+      s"""select POSITION_RE(TITLE) POSITION, min(PAY_MIN_INT(PAY)) PAY_MIN, max(PAY_MAX_INT(PAY)) PAY_MAX
+         |from PAY_MIN_MAX_TMP
+         |group by POSITION
+         |order by POSITION desc""".stripMargin
+    DataFrameHandle.NullFilter(spark.sql(sql), "POSITION")
   }
 
   /**
@@ -72,19 +72,19 @@ object SparkCore {
    * @param spark SparkSession
    * @return DataFrame
    */
-  def getPositionCityKey(spark: SparkSession): DataFrame = {
-    var yingJieShengDF: DataFrame = MySQLUtils.MySQL2DF(spark, "yingjiesheng")
-    yingJieShengDF = yingJieShengDF.select("title", "msg")
-      .where(StringHandle.getKeySQL("msg"))
-      .where(StringHandle.getKeySQL("title"))
-    yingJieShengDF.createTempView("yingjiesheng")
+  def getPositionCityKey(spark: SparkSession, yingJieShengDF: DataFrame): DataFrame = {
+    yingJieShengDF.select("TITLE", "MSG")
+      .where(StringHandle.getKeySQL("MSG"))
+      .where(StringHandle.getKeySQL("TITLE"))
+      .createTempView("YINGJIESHENG")
+
     val sql =
-      s"""select get_position_msg(msg) position,
-         |get_city_msg(msg) city,
-         |get_key_msg(msg) key
-         |from yingjiesheng
+      s"""select GET_POSITION_MSG(MSG) POSITION,
+         |GET_CITY_MSG(MSG) city,
+         |GET_KEY_MSG(MSG) key
+         |from YINGJIESHENG
          |""".stripMargin
-    val df: DataFrame = DataFrameHandle.NullFilter(spark.sql(sql), "position")
+    val df: DataFrame = DataFrameHandle.NullFilter(spark.sql(sql), "POSITION")
     df
   }
 

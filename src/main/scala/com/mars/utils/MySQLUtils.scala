@@ -40,10 +40,10 @@ object MySQLUtils {
   /**
    * 向MySQL数据库写入数据
    *
-   * @param spark SparkSession
+   * @param df DataFrame
    * @param table 写入的表名
    */
-  def DF2MySQL(dataFrame: DataFrame, table: String): Unit = {
-    dataFrame.write.mode(SaveMode.Overwrite).jdbc(url = REMOTEURL, table = table, REMOTEPROP)
+  def DF2MySQL(df: DataFrame, table: String): Unit = {
+    df.write.mode(SaveMode.Overwrite).jdbc(url = REMOTEURL, table = table, REMOTEPROP)
   }
 }
