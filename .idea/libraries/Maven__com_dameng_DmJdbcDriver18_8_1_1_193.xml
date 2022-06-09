@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: com.dameng:DmJdbcDriver18:8.1.1.193">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../../Environment/MavenRepo/com/dameng/DmJdbcDriver18/8.1.1.193/DmJdbcDriver18-8.1.1.193.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$PROJECT_DIR$/../../../Environment/MavenRepo/com/dameng/DmJdbcDriver18/8.1.1.193/DmJdbcDriver18-8.1.1.193-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/../../../Environment/MavenRepo/com/dameng/DmJdbcDriver18/8.1.1.193/DmJdbcDriver18-8.1.1.193-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
