@@ -20,10 +20,10 @@ object UdfRegisterHandle {
     positionReplaceUDF(spark)
     payMinUDF(spark)
     payMaxUDF(spark)
-    getCityUDF(spark)
-    getPositionUDF(spark)
-    getCompanyUDF(spark)
-    getTimeUDF(spark)
+    getCityByTitleUDF(spark)
+    getPositionByTitleUDF(spark)
+    getCompanyByTitleUDF(spark)
+    getTimeByInfoUDF(spark)
     getCityByMsgUDF(spark)
     getKeyByMsgUDF(spark)
     getPositionByMsgUDF(spark)
@@ -68,7 +68,12 @@ object UdfRegisterHandle {
     })
   }
 
-  def getCityUDF(spark: SparkSession): Unit = {
+  /**
+   * 通过 title 获取城市 UDF 函数
+   *
+   * @param spark SparkSession
+   */
+  def getCityByTitleUDF(spark: SparkSession): Unit = {
     spark.udf.register("GET_CITY", (title: String) => {
       var city: String = ""
       if (title.contains("[") && title.contains("]")) {
@@ -78,7 +83,12 @@ object UdfRegisterHandle {
     })
   }
 
-  def getPositionUDF(spark: SparkSession): Unit = {
+  /**
+   * 通过 title 获取职位 UDF 函数
+   *
+   * @param spark SparkSession
+   */
+  def getPositionByTitleUDF(spark: SparkSession): Unit = {
     spark.udf.register("GET_POSITION", (title: String) => {
       var position: String = ""
       if (title.split(" ").length == 2) {
@@ -88,7 +98,12 @@ object UdfRegisterHandle {
     })
   }
 
-  def getCompanyUDF(spark: SparkSession): Unit = {
+  /**
+   * 通过 title 获取公司 UDF 函数
+   *
+   * @param spark SparkSession
+   */
+  def getCompanyByTitleUDF(spark: SparkSession): Unit = {
     spark.udf.register("GET_COMPANY", (title: String) => {
       var company: String = ""
       if (title.contains("[") && title.contains("]")) {
@@ -101,12 +116,22 @@ object UdfRegisterHandle {
     })
   }
 
-  def getTimeUDF(spark: SparkSession): Unit = {
+  /**
+   * 通过 info 获取招聘日期 UDF 函数
+   *
+   * @param spark SparkSession
+   */
+  def getTimeByInfoUDF(spark: SparkSession): Unit = {
     spark.udf.register("GET_TIME", (info: String) => {
       info.split("\n")(0)
     })
   }
 
+  /**
+   * 通过 msg 获取城市 UDF 函数
+   *
+   * @param spark SparkSession
+   */
   def getCityByMsgUDF(spark: SparkSession): Unit = {
     spark.udf.register("GET_CITY_MSG", (info: String) => {
       var city: String = ""
@@ -122,11 +147,15 @@ object UdfRegisterHandle {
     })
   }
 
+  /**
+   * 通过 msg 获取关键字 UDF 函数
+   *
+   * @param spark SparkSession
+   */
   def getKeyByMsgUDF(spark: SparkSession): Unit = {
     spark.udf.register("GET_KEY_MSG", (msg: String) => {
       val keyLine: String = msg.split("\n")(1).replace("职位简介：", "")
         .replace(".", "")
-      val keyList: List[String] = Constant.KEYSLIST
       var keyString: String = ""
       Constant.KEYSLIST.map(key => {
         if (keyLine.contains(key)) {
@@ -137,6 +166,11 @@ object UdfRegisterHandle {
     })
   }
 
+  /**
+   * 通过 msg 获取职位 UDF 函数
+   *
+   * @param spark SparkSession
+   */
   def getPositionByMsgUDF(spark: SparkSession): Unit = {
     spark.udf.register("GET_POSITION_MSG", (msg: String) => {
       val position: String = msg.split("\n")(0).split("\\s")(1)
