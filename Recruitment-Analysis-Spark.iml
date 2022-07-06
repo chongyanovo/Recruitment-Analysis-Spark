@@ -229,7 +229,6 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.apache.spark:spark-streaming_2.12:3.0.0" level="project" />
     <orderEntry type="library" name="Maven: mysql:mysql-connector-java:8.0.25" level="project" />
     <orderEntry type="library" name="Maven: com.google.protobuf:protobuf-java:3.11.4" level="project" />
-    <orderEntry type="library" name="Maven: com.hankcs:hanlp:portable-1.8.2" level="project" />
     <orderEntry type="library" name="Maven: com.dameng:DmJdbcDriver18:8.1.1.193" level="project" />
   </component>
 </module>

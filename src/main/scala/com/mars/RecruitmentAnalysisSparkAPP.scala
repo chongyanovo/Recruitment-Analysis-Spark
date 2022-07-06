@@ -2,8 +2,9 @@ package com.mars
 
 import com.mars.constant.Constant
 import com.mars.core.{SparkCore, UdfRegisterHandle}
-import com.mars.utils.{DaMengUtils}
-import org.apache.spark.sql.{DataFrame, SparkSession}
+import com.mars.utils.{DaMengUtils, MySQLUtils}
+import org.apache.spark.sql.functions.col
+import org.apache.spark.sql.{DataFrame, SparkSession, functions}
 
 
 object RecruitmentAnalysisSparkAPP {
@@ -13,32 +14,48 @@ object RecruitmentAnalysisSparkAPP {
     // 统一注册所有 UDF 函数
     UdfRegisterHandle.registerAll(spark)
 
-    // 读取 JOB_ONLINE 表并转为 DataFrame
-    val jobOnlineDF: DataFrame = DaMengUtils.DM2DF(spark, "JOB_ONLINE")
+    //    DaMengUtils.DM2DF(spark, "ETL_DATA")
+    val ETL: DataFrame = SparkCore.getETL(spark)
+    ETL.show()
+    //    DaMengUtils.DF2DM(ETL, "ETL_DATA")
 
-    // 筛选出有关大数据的岗位
-    val positionCountDF: DataFrame = SparkCore.getPositionCount(spark, jobOnlineDF)
-    positionCountDF.show()
+    // 公司类型 公司规模 学历要求 薪资平均值
 
-    // 查询岗位的最高工资和最低工资信息
-    val PayMinMaxDF: DataFrame = SparkCore.getPayMinMax(spark, jobOnlineDF)
-    PayMinMaxDF.show()
+    //    import spark.implicits._
+    //    val treatmentsArray: Array[String] = ETL.select("TREATMENT")
+    //      .rdd.collect()
+    //      .flatMap(_.toString().split("\\|"))
+    //    val treatmentDF: DataFrame = spark.sparkContext.parallelize(treatmentsArray)
+    //      .map(_.replace("[", "")
+    //        .replace("]", ""))
+    //      .toDF( "TREATMENT")
+    //      .filter("TREATMENT != '' ")
+    //      .groupBy("TREATMENT")
+    //      .count()
+    //      .withColumnRenamed("count","TREATMENT_COUNT")
+    //      .orderBy(col("TREATMENT_COUNT").desc)
+    //      .filter("TREATMENT_COUNT >= 1000")
+
+    //    treatmentDF.show(50)
+    //    println(treatmentDF.count())
+    //    DaMengUtils.DF2DM(treatmentDF,"TREATMENT")
+    //    MySQLUtils.DF2MySQL(treatmentDF,"TREATMENT")
 
 
-    // 读取 YINGJIESHENG 表并转为 DataFrame
-    val yingJieShengDF: DataFrame = DaMengUtils.DM2DF(spark, "YINGJIESHENG")
+    // 数据大屏需要的数据
+    //    val dataDF: DataFrame = SparkCore.getVData(spark, ETL)
+    //    dataDF.show()
+    //    println("数据大屏数据量:" + dataDF.count())
+    //    DaMengUtils.DF2DM(dataDF, "DATA")
 
-    // 统计每个城市招聘岗位的数量 position city key
-    val PositionCityKeyDF: DataFrame = SparkCore.getPositionCityKey(spark, yingJieShengDF)
-    PositionCityKeyDF.show()
 
-    // 写入数据库
-    //    DaMengUtils.DF2DM(positionCountDF,"POSITION_COUNT")
-    //    println("POSITION_COUNT 存储成功")
-    //    DaMengUtils.DF2DM(PayMinMaxDF,"PAY_MIN_MAX")
-    //    println("PAY_MIN_MAX 存储成功")
-    //    DaMengUtils.DF2DM(PositionCityKeyDF,"POSITION_CITY_KEY")
-    //    println("POSITION_CITY_KEY 存储成功")
+    //    val KeyWordsCountRelevantDF: DataFrame = SparkCore.getKeyWordsCountRelevant(spark, ETL)
+    //    KeyWordsCountRelevantDF.show()
+    //    DaMengUtils.DF2DM(KeyWordsCountRelevantDF, "KEY_WORDS_COUNT_RELEVANT")
+
+
+    //.withColumn("id", monotonically_increasing_id() + 1)
+    //.select("id", "POSITION", "YEAR", "MONTH", "CITY", "SALARY_SECTION", "KEYWORD", "KEYWORD_COUNT")
 
 
     spark.stop()

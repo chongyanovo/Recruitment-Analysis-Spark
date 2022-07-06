@@ -1,5 +1,6 @@
 package com.mars.utils
 
+import com.mars.constant.Constant
 import org.apache.spark.sql.{DataFrame, SaveMode, SparkSession}
 
 import java.util.Properties
@@ -11,20 +12,12 @@ import java.util.Properties
  * @Date 2022/5/30
  */
 object MySQLUtils {
-  val LOCALURL = "jdbc:mysql://localhost:3306/recruitment_analysis"
-  val REMOTEURL = "jdbc:mysql://www.partitioner.cn:3306/recruitment_analysis"
+  val LOCAL_URL = Constant.MySQL_URL
 
-  val LOACLPROP = new Properties()
-  LOACLPROP.setProperty("user", "root") // 用户名
-  LOACLPROP.setProperty("password", "root") // 密码
-  LOACLPROP.setProperty("driver", "com.mysql.cj.jdbc.Driver")
-  LOACLPROP.setProperty("numPartitions", "2")
-
-  val REMOTEPROP = new Properties()
-  REMOTEPROP.setProperty("user", "root") // 用户名
-  REMOTEPROP.setProperty("password", "123456") // 密码
-  REMOTEPROP.setProperty("driver", "com.mysql.cj.jdbc.Driver")
-  REMOTEPROP.setProperty("numPartitions", "2")
+  val LOCAL_PROP = new Properties()
+  LOCAL_PROP.setProperty("user", Constant.MySQL_USER_NAME) // 用户名
+  LOCAL_PROP.setProperty("password", Constant.MySQL_PASS_WARD) // 密码
+  LOCAL_PROP.setProperty("driver", Constant.MySQL_JDBC_DRIVER)
 
   /**
    * 从MySQL数据库中读取数据
@@ -34,7 +27,7 @@ object MySQLUtils {
    * @return DataFrame
    */
   def MySQL2DF(spark: SparkSession, table: String): DataFrame = {
-    spark.read.jdbc(url = LOCALURL, table = table, properties = LOACLPROP)
+    spark.read.jdbc(url = LOCAL_URL, table = table, properties = LOCAL_PROP)
   }
 
   /**
@@ -44,6 +37,6 @@ object MySQLUtils {
    * @param table 写入的表名
    */
   def DF2MySQL(df: DataFrame, table: String): Unit = {
-    df.write.mode(SaveMode.Overwrite).jdbc(url = REMOTEURL, table = table, REMOTEPROP)
+    df.write.mode(SaveMode.Overwrite).jdbc(url = LOCAL_URL, table = table, LOCAL_PROP)
   }
 }

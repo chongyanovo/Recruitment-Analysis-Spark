@@ -50,11 +50,6 @@
             <version>8.0.25</version>
         </dependency>
         <dependency>
-            <groupId>com.hankcs</groupId>
-            <artifactId>hanlp</artifactId>
-            <version>portable-1.8.2</version>
-        </dependency>
-        <dependency>
             <groupId>com.dameng</groupId>
             <artifactId>DmJdbcDriver18</artifactId>
             <version>8.1.1.193</version>
